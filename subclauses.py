@@ -21,7 +21,7 @@ nlp = spacy.load("en_core_web_sm")
 conj_and_punc_list = ["and", "or", "but", "however", "also", "?", "!", ".", ",", ":", ";", ]
 
 
-class Subclauses:
+class SubclauseGenerator:
     """
     This class is used to generate subclauses from texts.
     """
@@ -234,7 +234,7 @@ class Subclauses:
 
 
 if __name__ == "__main__":
-    sc = Subclauses()
+    sc = SubclauseGenerator()
 
     # The below is an example that converts a sentence into the subclauses thereof.
     print(sc.convert_to_subclauses("If you are not going to play this song at my funeral, then I won't be attending!"))

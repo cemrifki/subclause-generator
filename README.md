@@ -15,8 +15,8 @@ This approach generates subclauses from texts on a sentence-basis in English. Ho
 
 A simple usage of the code is given below. You can also import this module in your projects by performing minor changes:
 ```
-from subclauses import Subclauses
-SC = Subclauses()
+from subclauses import SubclauseGenerator
+SC = SubclauseGenerator()
 subcls = SC.convert_to_subclauses("The vibe is relaxed and cozy, the service was great, and the ambiance was good!")
 print(subcls)
 # The result is: [['the', 'vibe', 'is', 'relaxed', 'and', 'cozy', '!'], ['the', 'service', 'was', 'great', '!'], ['the', 'ambiance', 'was', 'good', '!']]
