@@ -13,7 +13,7 @@ This approach generates subclauses from texts on a sentence-basis in English. Ho
 
 ## Execution
 
-A simple usage of the code is given below. You can also import this module in your projects as well by performing minor changes:
+A simple usage of the code is given below. You can also import this module in your projects by performing minor changes:
 ```
 from subclauses import Subclauses
 SC = Subclauses()
