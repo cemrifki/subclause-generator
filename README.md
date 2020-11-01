@@ -32,7 +32,7 @@ If you find this code useful, please cite the following in your work:
     year={2020},  
     volume={8},  
     pages={77820-77832},  
-    doi={10.1109/ACCESS.2020.2990306}}}
+    doi={10.1109/ACCESS.2020.2990306}}
 ```
 ## Credits
 Codes were written by Cem Rifki Aydin
