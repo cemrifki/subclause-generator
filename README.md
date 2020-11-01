@@ -19,7 +19,7 @@ from subclauses import Subclauses
 SC = Subclauses()
 subcls = SC.convert_to_subclauses("The vibe is relaxed and cozy, the service was great, and the ambiance was good!")
 print(subcls)
-# The result is: [['the', 'service', 'was', 'great', '!'], ['the', 'vibe', 'is', 'relaxed', 'and', 'cozy', '!'], ['the', 'ambiance', 'was', 'good', '!']]
+# The result is: [['the', 'vibe', 'is', 'relaxed', 'and', 'cozy', '!'], ['the', 'service', 'was', 'great', '!'], ['the', 'ambiance', 'was', 'good', '!']]
 ```
 
 ## Citation
