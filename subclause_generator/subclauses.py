@@ -16,7 +16,14 @@ import preprocessing
 # Punctuation marks across the module can be handled more efficiently and consistently in future.
 p = re.compile(r"([.?!])[\"\']*$")
 
-nlp = spacy.load("en_core_web_sm")
+# Attempt to download the model (only if not already installed)
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    print("Downloading en_core_web_sm model...")
+    spacy.cli.download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
+
 
 conj_and_punc_list = ["and", "or", "but", "however", "also", "?", "!", ".", ",", ":", ";", ]
 
