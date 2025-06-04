@@ -11,7 +11,14 @@ from collections import defaultdict
 
 import spacy
 
-import preprocessing
+import sys
+import os
+
+# Add the subclause_generator/ directory to sys.path
+sys.path.append(os.path.join(os.path.dirname(__file__), 'subclause_generator'))
+
+import preprocessing 
+
 
 # Punctuation marks across the module can be handled more efficiently and consistently in future.
 p = re.compile(r"([.?!])[\"\']*$")
