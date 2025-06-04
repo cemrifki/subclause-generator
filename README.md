@@ -35,4 +35,4 @@ If you find this code useful, please cite the following in your work:
     doi={10.1109/ACCESS.2020.2990306}}
 ```
 ## Credits
-Codes were written by Cem Rifki Aydin
+All the code was written by Cem Rifki Aydin
