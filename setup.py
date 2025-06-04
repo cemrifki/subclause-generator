@@ -9,7 +9,7 @@ setup(
     version="0.1.0",
     description="A tool to generate subclauses using dependency parsing methods / rules.",
     author="Cem Rıfkı Aydın",
-    packages=find_packages(),  
+    packages= ["subclause_generator"],  # find_packages(),  
     install_requires=requirements,
     python_requires=">=3.7",
     include_package_data=True,
