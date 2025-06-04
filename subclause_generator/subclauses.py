@@ -16,6 +16,21 @@ import re
 tag_re = re.compile(r'(<!--.*?-->|<[^>]*>)')
 
 
+
+# Punctuation marks across the module can be handled more efficiently and consistently in future.
+p = re.compile(r"([.?!])[\"\']*$")
+
+# Attempt to download the model (only if not already installed)
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    print("Downloading en_core_web_sm model...")
+    spacy.cli.download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
+
+
+conj_and_punc_list = ["and", "or", "but", "however", "also", "?", "!", ".", ",", ":", ";", ]
+
 # Preprocessing is performed through the below function.
 def normalize_tokenize(string):
     """
@@ -66,21 +81,6 @@ def normalize_tokenize(string):
 
     string = re.sub(r"\s{2,}", " ", string)
     return string
-
-
-# Punctuation marks across the module can be handled more efficiently and consistently in future.
-p = re.compile(r"([.?!])[\"\']*$")
-
-# Attempt to download the model (only if not already installed)
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    print("Downloading en_core_web_sm model...")
-    spacy.cli.download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
-
-
-conj_and_punc_list = ["and", "or", "but", "however", "also", "?", "!", ".", ",", ":", ";", ]
 
 
 class SubclauseGenerator:
