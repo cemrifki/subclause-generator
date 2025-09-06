@@ -1,5 +1,5 @@
 # Subclause Generation
-This repo contains the source code for generating subclauses from a given sentence in English and Turkish. This functionality is also used in the work stated below. However, the following performs a comprehensive study on sentiment analysis; the creation of subclauses in a novel way is only a part of the whole work:
+This repo contains the source code for generating subclauses from a given sentence in English or Turkish. This functionality is also used in the work stated below. However, the following performs a comprehensive study on sentiment analysis; the creation of subclauses in a novel way is only a part of the whole work:
 
 [Combination of Recursive and Recurrent Neural Networks for Aspect-Based Sentiment Analysis Using Inter-Aspect Relations](https://ieeexplore.ieee.org/document/9078752).
 Cem Rifki Aydin, Tunga Gungor. IEEE Access

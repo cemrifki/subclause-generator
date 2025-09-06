@@ -322,7 +322,7 @@ class SubclauseGenerator:
 
 
 def main(args=None):
-    # Examples for English
+    # Examples
     sc_en = SubclauseGenerator("en")
 
     # The below is an example that converts a sentence into the subclauses thereof.
