@@ -1,1 +1,5 @@
-spacy
+numpy==1.23.5
+thinc==8.1.5
+spacy==3.4.2
+https://huggingface.co/turkish-nlp-suite/tr_core_news_lg/resolve/main/tr_core_news_lg-1.0-py3-none-any.whl
+
