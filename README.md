@@ -4,16 +4,18 @@ This repo contains the source code for generating subclauses from a given senten
 [Combination of Recursive and Recurrent Neural Networks for Aspect-Based Sentiment Analysis Using Inter-Aspect Relations](https://ieeexplore.ieee.org/document/9078752).
 Cem Rifki Aydin, Tunga Gungor. IEEE Access
 
-This approach was originally developed for English, generating subclauses from texts on a sentence-by-sentence basis. The functionality can be further enhanced by incorporating additional dependency relationships. In version 0.2.0, support for Turkish has also been introduced, increasing portability. With minor adjustments, the approach can be adapted to other languages as well. This also performs a basic preprocessing operation prior to extracting subclauses, which can be skipped. In addition, at the end of each subclause, we add the punctuation mark that appears at the end of the whole sentence. Lastly, redundantly appearing tokens at the beginning and end of subclauses (e.g. "and") are removed.
+This approach was originally developed for English only, generating subclauses from texts on a sentence-by-sentence basis. The functionality can be further enhanced by incorporating additional dependency relationships. In version 0.2.0, support for Turkish has also been introduced, increasing portability. With minor adjustments, the approach can be adapted to other languages as well. This also performs a basic preprocessing operation prior to extracting subclauses, which can be skipped. In addition, at the end of each subclause, we add the punctuation mark that appears at the end of the whole sentence. Lastly, redundantly appearing tokens at the beginning and end of subclauses (e.g. "and") are removed.
 
 ## Requirements
 
-- Python 3.7 or a newer version of Python
-- spacy 2.1.0
+- Python 3.9 or a newer version of Python
+- spacy 3.4.2
+- numpy 1.23.5
+- thinc 8.1.5
 
 ## Execution
 
-A simple usage of the code is given below. First, go into the subclause_generator folder. Then you can run the below lines of code or similar ones. You can also import this module in your projects by performing minor changes:
+I ran this code by relying on `Python 3.9`. A simple usage of the code is given below. First, go into the subclause_generator folder. Then you can run the below lines of code or similar ones. You can also import this module in your projects by performing minor changes:
 
 ```
 from subclauses import SubclauseGenerator
