@@ -9,9 +9,9 @@ This approach was originally developed for English only, generating subclauses f
 ## Requirements
 
 - Python 3.9 or a newer version of Python
-- spacy 3.4.2
-- numpy 1.23.5
-- thinc 8.1.5
+- spacy
+- numpy
+- thinc
 
 ## Execution
 
