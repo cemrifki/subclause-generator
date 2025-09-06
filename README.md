@@ -1,10 +1,10 @@
 # Subclause Generation
-This repo contains the source code for generating subclauses from a given sentence in English. This functionality is also used in the work stated below. However, the following performs a comprehensive study on sentiment analysis; the creation of subclauses in a novel way is only a part of the whole work:
+This repo contains the source code for generating subclauses from a given sentence in English and Turkish. This functionality is also used in the work stated below. However, the following performs a comprehensive study on sentiment analysis; the creation of subclauses in a novel way is only a part of the whole work:
 
 [Combination of Recursive and Recurrent Neural Networks for Aspect-Based Sentiment Analysis Using Inter-Aspect Relations](https://ieeexplore.ieee.org/document/9078752).
 Cem Rifki Aydin, Tunga Gungor. IEEE Access
 
-This approach generates subclauses from texts on a sentence-basis in English. However, this functionality can be enhanced by taking into account several other dependency relationships. This can be adapted to other languages as well with minor changes. This also performs a basic preprocessing operation prior to extracting subclauses, which can be skipped. In addition, at the end of each subclause, we add the punctuation mark that appears at the end of the whole sentence. Lastly, redundantly appearing tokens at the beginning and end of subclauses (e.g. "and") are removed.
+This approach was originally developed for English, generating subclauses from texts on a sentence-by-sentence basis. The functionality can be further enhanced by incorporating additional dependency relationships. In version 0.2.0, support for Turkish has also been introduced, increasing portability. With minor adjustments, the approach can be adapted to other languages as well. This also performs a basic preprocessing operation prior to extracting subclauses, which can be skipped. In addition, at the end of each subclause, we add the punctuation mark that appears at the end of the whole sentence. Lastly, redundantly appearing tokens at the beginning and end of subclauses (e.g. "and") are removed.
 
 ## Requirements
 
@@ -14,12 +14,23 @@ This approach generates subclauses from texts on a sentence-basis in English. Ho
 ## Execution
 
 A simple usage of the code is given below. First, go into the subclause_generator folder. Then you can run the below lines of code or similar ones. You can also import this module in your projects by performing minor changes:
+
 ```
 from subclauses import SubclauseGenerator
-SC = SubclauseGenerator()
+SC = SubclauseGenerator("en")
 subcls = SC.convert_to_subclauses("The vibe is relaxed and cozy, the service was great, and the ambiance was good!")
 print(subcls)
 # The result is: [['the', 'vibe', 'is', 'relaxed', 'and', 'cozy', '!'], ['the', 'service', 'was', 'great', '!'], ['the', 'ambiance', 'was', 'good', '!']]
+```
+
+If you want to create subclauses based on Turkish texts, you can run the below exemplary commands:
+
+```
+from subclauses import SubclauseGenerator
+SC = SubclauseGenerator("tr")
+subcls = SC.convert_to_subclauses("Yemek çok iyiydi ve servis de süperdi.")
+print(subcls)
+# The result is: [['yemek', 'çok', 'iyiydi', '.'], ['servis', 'de', 'süperdi', '.']]
 ```
 
 ## Citation
