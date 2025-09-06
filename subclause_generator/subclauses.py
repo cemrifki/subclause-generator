@@ -1,35 +1,36 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
-This module is used to generate subclauses from given sentences for English.
+subclauses.py
+This module (version 0.2.0) provides functionality for generating subclauses from sentences in English and 
+Turkish, using spaCy for dependency parsing. It includes preprocessing utilities for tokenization and 
+normalization, and a SubclauseGenerator class that segments sentences into subclauses based on dependency 
+relationships. The module is designed for aspect-based sentiment analysis and can be extended for other NLP 
+tasks.
+Classes:
+    SubclauseGenerator: Generates subclauses from input sentences using dependency parsing.
+Functions:
+    normalize_tokenize(string): Preprocesses and tokenizes input text.
+    main(args=None): Example usage of SubclauseGenerator.
+Usage:
+    Run the module directly to see example subclause extraction for Turkish sentences.
+    The SubclauseGenerator can be instantiated for English ("en") or Turkish ("tr") and used to
+    convert sentences into lists of subclauses. Several examples are also provided in the main method.
 
-@author: Cem Rıfkı Aydın
+    
+Author: Cem Rifki Aydin
+Date: 06.09.2025
+
 """
 
 import re
 from collections import defaultdict
 
-import spacy
-
-import re
-
-tag_re = re.compile(r'(<!--.*?-->|<[^>]*>)')
-
+import spacy 
 
 
 # Punctuation marks across the module can be handled more efficiently and consistently in future.
 p = re.compile(r"([.?!])[\"\']*$")
+tag_re = re.compile(r'(<!--.*?-->|<[^>]*>)')
 
-# Attempt to download the model (only if not already installed)
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    print("Downloading en_core_web_sm model...")
-    spacy.cli.download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
-
-
-conj_and_punc_list = ["and", "or", "but", "however", "also", "?", "!", ".", ",", ":", ";", ]
 
 # Preprocessing is performed through the below function.
 def normalize_tokenize(string):
@@ -48,9 +49,9 @@ def normalize_tokenize(string):
     # to the same two chars only.
     string = re.sub(r"(.)(\1)\1{2,}", r"\1\1\1", string)
     # Added, since mentions (e.g. @trump) do not contribute to sentiment.
-    string = re.sub(r"@[a-zA-Z0-9()#,!?:=;\-\\'`./]+", r"", string)
+    string = re.sub(r"@[a-zA-ZçÇğĞıİöÖşŞüÜ0-9()#,!?:=;\-\\'`./]+", r"", string)
     # Some extra chars are added to be taken into account.
-    string = re.sub(r"[^A-Za-z0-9()#,!?:=;\-\\'`./]", " ", string)
+    string = re.sub(r"[^A-Za-zçÇğĞıİöÖşŞüÜ0-9()#,!?:=;\-\\'`./]", " ", string)
 
     # Numeric forms and emoticons, such as 22:30, are not disrupted.
     string = re.sub(r"([^\d)(])([,.:;]+)([^\d()]|$)", r"\1 \2 \3", string)
@@ -61,11 +62,11 @@ def normalize_tokenize(string):
     # The below four regex commands are implemented to put blank spaces before or after
     # parens without disrupting emoticons.
 
-    string = re.sub(r"\(([A-Za-z0-9,!?\-\\'`])", r"( \1", string)
-    string = re.sub(r"([A-Za-z0-9,!?\-\\'`])\(", r"\1 (", string)
+    string = re.sub(r"\(([A-Za-zçÇğĞıİöÖşŞüÜ0-9,!?\-\\'`])", r"( \1", string)
+    string = re.sub(r"([A-Za-zçÇğĞıİöÖşŞüÜ0-9,!?\-\\'`])\(", r"\1 (", string)
 
-    string = re.sub(r"([A-Za-z0-9,!?\-\\'`])\)", r"\1 )", string)
-    string = re.sub(r"\)([A-Za-z0-9,!?\-\\'`])", r") \1", string)
+    string = re.sub(r"([A-Za-zçÇğĞıİöÖşŞüÜ0-9,!?\-\\'`])\)", r"\1 )", string)
+    string = re.sub(r"\)([A-Za-zçÇğĞıİöÖşŞüÜ0-9,!?\-\\'`])", r") \1", string)
 
     # "(?!)" and similar forms that likely indicate sarcasm are kept.
     string = re.sub(r"(\() +([?!]+) +(\))", r"\1\2\3", string)
@@ -92,8 +93,27 @@ class SubclauseGenerator:
     # existence of subclauses with respect to the dependency tree of the input.
     subclause_marker_relationships = {"conj", "ccomp"}
 
-    def __init__(self):
-        pass
+    def __init__(self, lang: str):
+        self.lang = lang  # "en" for English, "tr" for Turkish
+        if self.lang not in ("en", "tr"):
+            raise ValueError(f"Unsupported language '{self.lang}'. Only 'en' and 'tr' are supported.")
+        
+        # For Turkish scenario, you can also update the code to leverage tr_core_news_trf
+        self.lang_model = "tr_core_news_lg" if self.lang == "tr" else "en_core_web_sm"  
+
+        # Attempt to download the model (only if not already installed)
+        try:
+            self.nlp = spacy.load(self.lang_model)
+        except OSError:
+            print(f"Downloading {self.lang_model} model...")
+            spacy.cli.download(self.lang_model)
+            self.nlp = spacy.load(self.lang_model)
+
+
+        self.conj_and_punc_list = ["ve", "veya", "ama", "buna rağmen", "ayrıca", "?", "!", ".", ",", ":", ";", ] if self.lang == "tr" \
+            else ["and", "or", "but", "however", "also", "?", "!", ".", ",", ":", ";", ]
+
+
 
     def convert_to_subclauses(self, sentence):
         """
@@ -111,7 +131,7 @@ class SubclauseGenerator:
         # Instead, you can use your own tokenizer provided that the output is of type str.
         sentence = normalize_tokenize(sentence)
 
-        str_sentence_arr = [tok.text for tok in nlp(sentence)]
+        str_sentence_arr = [tok.text for tok in self.nlp(sentence)]
 
         str_sentence = " ".join(str_sentence_arr)
         final_punc_mark = self.final_punc_mark(str_sentence)
@@ -169,9 +189,15 @@ class SubclauseGenerator:
         for kid in tok.children:
             tag = kid.tag_.lower()
             dep = kid.dep_.lower()
+            
+            # print(tag, dep, kid.text, kid.i)
+            # print(tok.lemma_.lower(), tok.pos_ , tok.is_alpha, tok.is_stop)
+
             # The below if statement segments the text into subclauses if the parser encounters a
             # subclause-related dependency relationship and a verb marking its existence.
-            if (dep in self.subclause_marker_relationships) and (tag == "vbd" or tag == "vbz" or tag == "vbg"):
+            # if (dep in self.subclause_marker_relationships) and (tag == "vbd" or tag == "vbz" or tag == "vbg"):
+            if (dep in self.subclause_marker_relationships) and (tag == "verb" or tag == "vbd" or tag == "vbz" or tag == "vbg"):
+                # print("Subclause marker found: ", dep, " for token: ", kid.text)
                 continue
             all_children.add(kid.text + "-" + str(kid.i))
             all_children |= self.get_children_recurs(kid, lev)
@@ -189,7 +215,7 @@ class SubclauseGenerator:
         :rtype: list
         """
 
-        doc = nlp(sentence)
+        doc = self.nlp(sentence)
         res = [self.get_children_recurs(token, 0) for token in doc]
         return res
 
@@ -235,7 +261,7 @@ class SubclauseGenerator:
             subcl = self.remove_ind(subcl)
             if subcl[-1] not in ".?!;:":
                 subcl = subcl + [final_punc]
-            subcl = self.remove_trailing_conjs_and_puncs(subcl, conj_and_punc_list)
+            subcl = self.remove_trailing_conjs_and_puncs(subcl, self.conj_and_punc_list)
             final_subclauses_upd.append(subcl)
         return final_subclauses_upd
 
@@ -295,15 +321,17 @@ class SubclauseGenerator:
         return s
 
 
-if __name__ == "__main__":
-    sc = SubclauseGenerator()
+def main(args=None):
+    # Examples for English
+    sc_en = SubclauseGenerator("en")
 
     # The below is an example that converts a sentence into the subclauses thereof.
-    print(sc.convert_to_subclauses("If you are not going to play this song at my funeral, then I won't be attending!"))
+    print(sc_en.convert_to_subclauses("The service was awesome, and the food was incredible!"))
 
-    # Other example usages are given below.
-    print(sc.convert_to_subclauses("The service was awesome, and the food was incredible!"))
-    print(sc.convert_to_subclauses("The vibe is relaxed and cozy, the service was great, and the ambiance was good!"))
-    print(sc.convert_to_subclauses("I loved that too much!"))
-    print(sc.convert_to_subclauses("And she said: \"God, I loved this movie so much!\""))
-    print(sc.convert_to_subclauses("I just moved to this country and city, and I disliked here to be honest :(((((."))
+    # An example for Turkish
+    sc_tr = SubclauseGenerator("tr")
+
+    print(sc_tr.convert_to_subclauses("Yemek çok iyiydi ve servis de süperdi."))
+
+if __name__ == "__main__":
+    main()
