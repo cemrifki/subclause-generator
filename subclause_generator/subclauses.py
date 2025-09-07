@@ -190,14 +190,10 @@ class SubclauseGenerator:
             tag = kid.tag_.lower()
             dep = kid.dep_.lower()
             
-            # print(tag, dep, kid.text, kid.i)
-            # print(tok.lemma_.lower(), tok.pos_ , tok.is_alpha, tok.is_stop)
-
             # The below if statement segments the text into subclauses if the parser encounters a
             # subclause-related dependency relationship and a verb marking its existence.
-            # if (dep in self.subclause_marker_relationships) and (tag == "vbd" or tag == "vbz" or tag == "vbg"):
-            if (dep in self.subclause_marker_relationships) and (tag == "verb" or tag == "vbd" or tag == "vbz" or tag == "vbg"):
-                # print("Subclause marker found: ", dep, " for token: ", kid.text)
+            if (dep in self.subclause_marker_relationships) and (tag in ("verb", "vbd", "vbz", "vbg")):
+
                 continue
             all_children.add(kid.text + "-" + str(kid.i))
             all_children |= self.get_children_recurs(kid, lev)
