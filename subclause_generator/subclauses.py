@@ -193,8 +193,8 @@ class SubclauseGenerator:
             # The below if statement segments the text into subclauses if the parser encounters a
             # subclause-related dependency relationship and a verb marking its existence.
             if (dep in self.subclause_marker_relationships) and (tag in ("verb", "vbd", "vbz", "vbg")):
-
                 continue
+            
             all_children.add(kid.text + "-" + str(kid.i))
             all_children |= self.get_children_recurs(kid, lev)
         return all_children
